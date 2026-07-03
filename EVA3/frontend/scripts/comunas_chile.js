@@ -4,7 +4,7 @@
 // Script completo comunas de Chile para MongoDB
 // ===============================================
 
-use("AP_N3_C1");
+use("eva3");
 
 db.createCollection("comunas");
 

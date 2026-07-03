@@ -13,7 +13,7 @@ aplicacion.use(cors());
 aplicacion.use(express.json());
 
 // Crear la conexión a DB
-mongoose.connect('mongodb://localhost:27017/test')
+mongoose.connect('mongodb://localhost:27017/eva3')
     .then(() => console.log('Conexión Exitosa!'))
     .catch((excepcion) => console.log('No ha sido posible conectarse por el siguiente error: ', excepcion));
 
@@ -38,13 +38,15 @@ const direccion = new mongoose.Schema({
 // Crear el MODELO de datos
 const usuario = new mongoose.Schema({
     nombre: String,
-    email: String,
+    correo: String,
     rut: String,
     telefono: String,
     contrasena: String,
-    nacimiento: Date,
+    fechaNacimiento: Date,
     genero: String,
     nacionalidad: String,
+    fechaRegistro: { type: Date, default: Date.now },   // se asigna automáticamente
+    activo: { type: Boolean, default: true },            // por defecto habilitado
     direccion: [direccion]
 });
 // Crear un OBJETO en base al MODELO usuario
@@ -63,14 +65,14 @@ const Pais = mongoose.model('Pais', pais, 'paises');
 // Crear el método para CREAR esos objetos en DB
 aplicacion.post('/guardarUsuario', async (request, response) => {
     try {
-        const { nombre, email, rut, telefono, contrasena, nacimiento, genero, nacionalidad, direccion } = request.body;
+        const { nombre, correo, rut, telefono, contrasena, fechaNacimiento, genero, nacionalidad, direccion } = request.body;
 
         const saltRounds = 10;
         const contrasenaEncriptada = await bcrypt.hash(contrasena, saltRounds);
 
         const jsonDireccion = JSON.parse(direccion);
 
-        const nuevoUsuario = new Usuario({ nombre, email, rut, telefono, contrasena: contrasenaEncriptada, nacimiento, genero, nacionalidad, direccion: jsonDireccion });
+        const nuevoUsuario = new Usuario({ nombre, correo, rut, telefono, contrasena: contrasenaEncriptada, fechaNacimiento, genero, nacionalidad, direccion: jsonDireccion });
 
         await nuevoUsuario.save();
         response.status(200).json({ mensaje: 'Datos almacenados correctamente.' });

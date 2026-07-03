@@ -5,12 +5,10 @@ window.onload = function () {
 
 function validarFormulario() {
     let nombre = document.getElementById('inputNombre');
-    let email = document.getElementById('inputEmail');
+    let correo = document.getElementById('inputEmail');
     let rut = document.getElementById('inputRut');
-    let telefono = document.getElementById('inputTelefono');
     let contrasena = document.getElementById('inputContrasena');
     let repContrasena = document.getElementById('inputRepetirContrasena');
-    let fechaNacimiento = document.getElementById('inputFechaNac');
     let genero = document.getElementById('selectGenero');
     let pais = document.getElementById('selectPais');
     let comuna = document.getElementById('selectComuna');
@@ -21,7 +19,7 @@ function validarFormulario() {
         formularioValido = false;
     }
 
-    if (!validarEmail(email)) {
+    if (!validarEmail(correo)) {
         formularioValido = false;
     }
 
@@ -29,19 +27,11 @@ function validarFormulario() {
         formularioValido = false;
     }
 
-    if (!validarCampo(telefono)) {
-        formularioValido = false
-    }
-
     if (!validarContrasena(contrasena)) {
         formularioValido = false
     }
 
     if (!validarRepetirContrasena(repContrasena, contrasena)) {
-        formularioValido = false
-    }
-
-    if (!validarCampo(fechaNacimiento)) {
         formularioValido = false
     }
 

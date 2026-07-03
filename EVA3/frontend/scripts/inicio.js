@@ -13,12 +13,15 @@ async function obtenerUsuarios() {
             data: usuarios,
             columns:[
                 {data: 'nombre'},
-                {data: 'email'},
+                {data: 'correo'},
                 {data: 'rut'},
                 {data: 'telefono'},
-                {data: 'nacimiento'},
+                {data: 'fechaNacimiento'},
                 {data: 'genero'},
                 {data: 'nacionalidad'},
+                {data: 'fechaRegistro'},
+                {data: 'activo'},
+                {data: 'direccion'},
             ]
     }); 
     } catch (error) {

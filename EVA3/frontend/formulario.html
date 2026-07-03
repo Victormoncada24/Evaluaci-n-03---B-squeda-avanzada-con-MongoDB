@@ -51,7 +51,7 @@
                     </div>
                     <div class="col">
                         <label for="inputEmail" class="form-label">Correo Electrónico:</label>
-                        <input type="email" name="email" id="inputEmail" class="form-control"
+                        <input type="email" name="correo" id="inputEmail" class="form-control"
                             onchange="validarEmail(this)">
                     </div>
                 </div>
@@ -64,8 +64,7 @@
                     </div>
                     <div class="col">
                         <label for="inputTelefono" class="form-label">Fono Contacto:</label>
-                        <input type="tel" name="telefono" id="inputTelefono" class="form-control"
-                            onchange="validarCampo(this)">
+                        <input type="tel" name="telefono" id="inputTelefono" class="form-control">
                     </div>
                 </div>
                 <br>
@@ -87,13 +86,12 @@
                 <div class="row">
                     <div class="col">
                         <label for="inputFechaNac" class="form-label">Fecha Nacimiento:</label>
-                        <input type="date" name="nacimiento" id="inputFechaNac" class="form-control"
-                            onchange="validarCampo(this)">
+                        <input type="date" name="fechaNacimiento" id="inputFechaNac" class="form-control">
                     </div>
 
                     <div class="col">
                         <label for="selectGenero" class="form-label">Seleccione su Género:</label>
-                        <select name="genero" id="selectGenero" class="form-select">
+                        <select name="genero" id="selectGenero" class="form-select" onchange="validarCampo(this)">
                             <option value="" selected>Seleccione su género</option>
                             <option value="F">Femenino</option>
                             <option value="M">Mascullino</option>
