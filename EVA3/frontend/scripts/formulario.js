@@ -178,6 +178,21 @@ function validarRut(campo) {
     }
 };
 
+function validarFechaNacimiento(campo) {
+    const fecha = new Date(campo.value);
+    const hoy = new Date();
+
+    if (!campo.value || fecha >= hoy) {
+        campo.classList.add('is-invalid');
+        campo.classList.remove('is-valid');
+        return false;
+    } else {
+        campo.classList.add('is-valid');
+        campo.classList.remove('is-invalid');
+        return true;
+    }
+}
+
 async function obtenerPaises() {
     try {
         const respuesta = await fetch('http://localhost:3000/paises');

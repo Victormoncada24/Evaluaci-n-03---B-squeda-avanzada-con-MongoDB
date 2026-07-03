@@ -64,18 +64,19 @@ const Pais = mongoose.model('Pais', pais, 'paises');
 
 // Crear el MODELO de datos Factura
 const factura = new mongoose.Schema({
-    usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true }, // relación con Usuario
-    numero: String,
-    proveedor: String,
-    fecha: Date,
-    monto: Number,
-    impuesto: Number,
-    total: Number,
-    estado: { type: String, enum: ['Pendiente', 'Pagada', 'Anulada'], default: 'Pendiente' },
-    metodoPago: { type: String, enum: ['Efectivo', 'Transferencia', 'Tarjeta'], required: true },
-    descripcion: String,
+    numero: { type: String, required: true },
+    proveedor: { type: String, required: true },
+    fecha: { type: Date, required: true },
+    monto: { type: Number, required: true },
+    impuesto: { type: Number, required: true },
+    total: { type: Number, required: true },
+    estado: { type: String, enum: ['Pendiente', 'Pagada', 'Anulada'], required: true },
+    metodoPago: { type: String, enum: ['Efectivo', 'Transferencia', 'Tarjeta', 'Sin método de pago'], required: true },
+    usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
+    descripcion: { type: String },
     moneda: { type: String, default: 'CLP' }
 });
+
 
 // Crear un OBJETO en base al MODELO factura
 const Factura = mongoose.model('Factura', factura, 'facturas');

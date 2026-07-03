@@ -34,6 +34,15 @@ async function inicializarTablaFacturas() {
     }
 }
 
+// Nueva función para limpiar validaciones
+function limpiarValidaciones() {
+    const campos = document.querySelectorAll('#registroFactura input, #registroFactura select, #registroFactura textarea');
+    campos.forEach(campo => {
+        campo.classList.remove('is-valid');
+        campo.classList.remove('is-invalid');
+    });
+}
+
 // Validar y enviar formulario de factura
 function validarFormularioFactura() {
     let numero = document.getElementById('inputNumero');
@@ -58,10 +67,12 @@ function validarFormularioFactura() {
     if (!validarCampo(usuario)) formularioValido = false;
 
     if (formularioValido) {
+        alert('Datos ingresados correctamente, enviado al servidor...');
         const formulario = document.getElementById('registroFactura');
         const datosFormulario = new FormData(formulario);
         const data = Object.fromEntries(datosFormulario.entries());
 
+        console.log("Datos enviados:", data);
         const enviarDatos = async () => {
             try {
                 const respuesta = await fetch('http://localhost:3000/guardarFactura', {
@@ -74,12 +85,16 @@ function validarFormularioFactura() {
                 console.log('Factura almacenada: ', info);
 
                 if (respuesta.ok) {
+                    console.log("Los datos de la factura se enviaron correctamente al servidor.");
                     formulario.reset();
-                    // ✅ refrescar tabla sin error
+                    limpiarValidaciones();
                     inicializarTablaFacturas();
+                } else {
+                    alert('Error al guardar la factura: ' + info.mensaje);
                 }
             } catch (error) {
                 console.log('Error al guardar la factura: ', error);
+                alert('No se pudo guardar la factura. Revisa la consola.');
             }
         }
         enviarDatos();

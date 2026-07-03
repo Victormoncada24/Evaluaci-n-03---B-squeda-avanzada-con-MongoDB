@@ -21,7 +21,7 @@
     <script src="https://cdn.datatables.net/v/dt/dt-2.3.8/datatables.min.js"
         integrity="sha384-kjkli48Tmhwhaghq0IIRm8gFmMdnihfu1ywAOyyGWYMsoZZi/6AX2fWzpsqahoFw"
         crossorigin="anonymous"></script>
-        <script src="./scripts/formulario.js"></script>
+        <script src="./scripts/factura.js"></script>
 
     <title>Formulario de Factura</title>
 </head>
@@ -38,7 +38,7 @@
     </nav>
 
     <div class="container principal">
-        <form id="registroFactura">
+        <form id="registroFactura" onsubmit="validarFormularioFactura(); return false;">
             <p class="h3">Formulario de Factura</p>
             <br>
             <div class="container">
@@ -78,17 +78,20 @@
                     <div class="col">
                         <label for="selectEstado" class="form-label">Estado:</label>
                         <select name="estado" id="selectEstado" class="form-select" onchange="validarCampo(this)">
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="Pagada">Pagada</option>
-                        <option value="Anulada">Anulada</option>
+                            <option value="" selected>Seleccione Estado</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Pagada">Pagada</option>
+                            <option value="Anulada">Anulada</option>
                         </select>
                     </div>
                     <div class="col">
                         <label for="selectMetodoPago" class="form-label">Método de Pago:</label>
                         <select name="metodoPago" id="selectMetodoPago" class="form-select" onchange="validarCampo(this)">
-                        <option value="Efectivo">Efectivo</option>
-                        <option value="Transferencia">Transferencia</option>
-                        <option value="Tarjeta">Tarjeta</option>
+                            <option value="" selected>Seleccione Método de Pago</option>
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Transferencia">Transferencia</option>
+                            <option value="Tarjeta">Tarjeta</option>
+                            <option value="Sin método de pago">Sin método de pago</option>
                         </select>
                     </div>
                 </div>
@@ -129,8 +132,16 @@
                 <!-- Botones -->
                 <div class="row">
                     <div class="col d-flex justify-content-end">
-                        <input type="reset" class="btn btn-secondary me-2" value="Cancelar">
-                        <button type="button" class="btn btn-primary" onclick="validarFormularioFactura()">Guardar Factura</button>
+                        <!-- Botón Cancelar -->
+                        <button type="button" id="btnCancelar" class="btn btn-secondary"
+                                onclick="document.getElementById('registroFactura').reset(); limpiarValidaciones();">
+                            Cancelar
+                        </button>
+
+                        <!-- Botón Guardar -->
+                        <button type="submit" id="btnGuardar" class="btn btn-primary">
+                            Guardar
+                        </button>
                     </div>
                 </div>
             </div>
