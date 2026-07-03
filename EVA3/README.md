@@ -2,7 +2,6 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>README - Evaluación Unidad 3</title>
 </head>
 <body>
   <h1>Evaluación Unidad 3 - Búsqueda avanzada con MongoDB</h1>
@@ -24,6 +23,7 @@ cd Evaluaci-n-03---B-squeda-avanzada-con-MongoDB/EVA3</code></pre>
       <pre><code>npm install</code></pre>
     </li>
     <li><strong>Iniciar servidor:</strong>
+      <p>Primero nos movemos a la carpeta donde esta el script: servidor.js</p>
       <pre><code>cd EVA3</code></pre>
       <pre><code>cd backend</code></pre>    
       <pre><code>node servidor.js</code></pre>
