@@ -1,5 +1,5 @@
 // ===============================================
-// Base de datos: AP_N3_C1
+// Base de datos: eva3
 // Colección: comunas
 // Script completo comunas de Chile para MongoDB
 // ===============================================
