@@ -131,7 +131,7 @@ aplicacion.post('/guardarFactura', async (request, response) => {
 });
 
 // Crear método para obtener objetos desde la DB
-aplicacion.get('/usuarios', async (request, response) => {
+aplicacion.get('/usuariosConPais', async (request, response) => {
     try {
         const usuarios = await Usuario.aggregate([{ // Colección original que queremos consultar
             $lookup:{
