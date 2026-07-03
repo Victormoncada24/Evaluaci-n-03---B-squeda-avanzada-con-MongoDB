@@ -11,20 +11,22 @@ async function inicializarTablaFacturas() {
         const respuesta = await fetch('http://localhost:3000/facturas');
         const facturas = await respuesta.json();
 
+        console.log(facturas);
+
         tablaFacturas = new DataTable('#tablaFacturas', {
             data: facturas,
-            destroy: true, // permite reinicializar si es necesario
+            destroy: true,
             columns: [
                 { data: 'numero' },
                 { data: 'proveedor' },
                 { data: 'fecha' },
                 { data: 'monto' },
                 { data: 'impuesto' },
-                { data: 'total' }, // 👈 ahora también mostramos el total
+                { data: 'total' },
                 { data: 'estado' },
                 { data: 'metodoPago' },
-                { data: 'usuario.nombre' },
-                { data: 'usuario.rut' }
+                { data: 'usuario.nombre' }, // nombre del usuario
+                { data: 'usuario.rut' }     // rut del usuario
             ]
         });
     } catch (error) {

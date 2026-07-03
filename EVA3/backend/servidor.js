@@ -151,9 +151,39 @@ aplicacion.get('/usuarios', async (request, response) => {
     }
 });
 
+// “Usé $unwind para simplificar el objeto usuario y $project para devolver solo los campos relevantes,
+// así la tabla muestra directamente nombre y rut sin arrays ni datos innecesarios.”
 aplicacion.get('/facturas', async (request, response) => {
     try {
-        const facturas = await Factura.find().populate('usuario', 'nombre rut correo');
+        const facturas = await Factura.aggregate([
+            {
+                $lookup: {
+                    from: 'usuarios',              // nombre de la colección relacionada
+                    localField: 'usuario',         // campo en Factura
+                    foreignField: '_id',           // campo en Usuario
+                    as: 'usuario'                  // alias para los datos unidos
+                }
+            },
+            { $unwind: '$usuario' },              // convierte el array en objeto
+            {
+                $project: {                       // selecciona los campos que quieres mostrar
+                    numero: 1,
+                    proveedor: 1,
+                    fecha: 1,
+                    monto: 1,
+                    impuesto: 1,
+                    total: 1,
+                    estado: 1,
+                    metodoPago: 1,
+                    descripcion: 1,
+                    moneda: 1,
+                    'usuario.nombre': 1,
+                    'usuario.rut': 1,
+                    'usuario.correo': 1
+                }
+            }
+        ]);
+
         response.status(200).json(facturas);
     } catch (error) {
         response.status(500).json({ mensaje: 'Error al obtener facturas', error });

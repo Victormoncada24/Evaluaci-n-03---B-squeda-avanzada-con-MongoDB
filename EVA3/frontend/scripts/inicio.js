@@ -7,7 +7,7 @@ async function obtenerUsuarios() {
         const respuesta = await fetch('http://localhost:3000/usuarios');
         const usuarios = await respuesta.json();
 
-        console.log(usuarios)
+        console.log(usuarios);
 
         new DataTable('#tablaUsuarios',{
             data: usuarios,
