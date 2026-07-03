@@ -12,6 +12,21 @@
     Se incluyen validaciones, seguridad en contraseñas y relaciones entre colecciones mediante <code>$lookup</code>.
   </p>
 
+  <h2>Dependencias Principales</h2>
+  <p>Backend</p>
+  <ul>
+    <li>express → framework para crear el servidor backend</li>
+    <li>cors → permite solicitudes externas</li>
+    <li>mongoose → ORM para trabajar con MongoDB</li>
+    <li>bcrypt → encriptación de contraseñas</li>
+  </ul>
+  <p>Frontend</p>
+  <ul>
+    <li>jQuery → manipulación del DOM y soporte para DataTables</li>
+    <li>Bootstrap → estilos y componentes responsivos</li>
+    <li>DataTables → visualización de tablas dinámicas</li>
+  </ul>
+
   <h2>Instalación y ejecución</h2>
   <ol>
     <li><strong>Clonar el repositorio:</strong>
