@@ -62,6 +62,25 @@ const pais = new mongoose.Schema({
 // Crear un OBJETO en base al MODELO usuario
 const Pais = mongoose.model('Pais', pais, 'paises');
 
+// Crear el MODELO de datos Factura
+const factura = new mongoose.Schema({
+    usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true }, // relación con Usuario
+    numero: String,
+    proveedor: String,
+    fecha: Date,
+    monto: Number,
+    impuesto: Number,
+    total: Number,
+    estado: { type: String, enum: ['Pendiente', 'Pagada', 'Anulada'], default: 'Pendiente' },
+    metodoPago: { type: String, enum: ['Efectivo', 'Transferencia', 'Tarjeta'], required: true },
+    descripcion: String,
+    moneda: { type: String, default: 'CLP' }
+});
+
+// Crear un OBJETO en base al MODELO factura
+const Factura = mongoose.model('Factura', factura, 'facturas');
+
+
 // Crear el método para CREAR esos objetos en DB
 aplicacion.post('/guardarUsuario', async (request, response) => {
     try {
@@ -78,6 +97,35 @@ aplicacion.post('/guardarUsuario', async (request, response) => {
         response.status(200).json({ mensaje: 'Datos almacenados correctamente.' });
     } catch (excepcion) {
         response.status(500).json({ mensaje: 'No se han podido almacenar los datos: ', excepcion });
+    }
+});
+
+// Crear el método para CREAR facturas en DB
+aplicacion.post('/guardarFactura', async (request, response) => {
+    try {
+        const { usuario, numero, proveedor, fecha, monto, impuesto, total, estado, metodoPago, descripcion, moneda } = request.body;
+
+        // Crear un nuevo objeto Factura en base al modelo
+        const nuevaFactura = new Factura({
+            usuario,        // aquí llega el _id del usuario desde el dropdown
+            numero,
+            proveedor,
+            fecha,
+            monto,
+            impuesto,
+            total,
+            estado,
+            metodoPago,
+            descripcion,
+            moneda
+        });
+
+        // Guardar en la colección facturas
+        await nuevaFactura.save();
+
+        response.status(200).json({ mensaje: 'Factura almacenada correctamente.' });
+    } catch (error) {
+        response.status(500).json({ mensaje: 'No se han podido almacenar los datos: ', error });
     }
 });
 
@@ -100,6 +148,15 @@ aplicacion.get('/usuarios', async (request, response) => {
         response.status(200).json(usuarios);
     } catch (error) {
         response.status(500).json({ mensaje: 'No ha sido posible obtener los datos: ', error })
+    }
+});
+
+aplicacion.get('/facturas', async (request, responde) => {
+    try {
+        const facturas = await Factura.find().populate('usuario', 'nombre rut correo');
+        res.status(200).json(facturas);
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al obtener facturas', error });
     }
 });
 
@@ -126,5 +183,15 @@ aplicacion.get('/comunas', async (request, response) => {
         response.status(200).json(comunas);
     } catch (error) {
         response.status(500).json({ mensaje: 'No ha sido posible obtener los datos: ', error })
+    }
+});
+
+// Endpoint /usuarios
+aplicacion.get('/usuarios', async (request, response) => {
+    try {
+        const usuarios = await Usuario.find({ activo: true }).select('nombre rut');
+        res.status(200).json(usuarios);
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al obtener usuarios', error });
     }
 });
