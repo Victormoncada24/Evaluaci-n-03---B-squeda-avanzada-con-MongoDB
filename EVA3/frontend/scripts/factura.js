@@ -1,7 +1,36 @@
+let tablaFacturas; // variable global para la tabla
+
 window.onload = function () {
     obtenerUsuarios();
-    obtenerFacturas();
+    inicializarTablaFacturas();
 };
+
+// Inicializar DataTable una sola vez
+async function inicializarTablaFacturas() {
+    try {
+        const respuesta = await fetch('http://localhost:3000/facturas');
+        const facturas = await respuesta.json();
+
+        tablaFacturas = new DataTable('#tablaFacturas', {
+            data: facturas,
+            destroy: true, // permite reinicializar si es necesario
+            columns: [
+                { data: 'numero' },
+                { data: 'proveedor' },
+                { data: 'fecha' },
+                { data: 'monto' },
+                { data: 'impuesto' },
+                { data: 'total' }, // 👈 ahora también mostramos el total
+                { data: 'estado' },
+                { data: 'metodoPago' },
+                { data: 'usuario.nombre' },
+                { data: 'usuario.rut' }
+            ]
+        });
+    } catch (error) {
+        console.log('Error al cargar facturas: ', error);
+    }
+}
 
 // Validar y enviar formulario de factura
 function validarFormularioFactura() {
@@ -27,8 +56,6 @@ function validarFormularioFactura() {
     if (!validarCampo(usuario)) formularioValido = false;
 
     if (formularioValido) {
-        alert('Factura ingresada correctamente, enviada al servidor...');
-
         const formulario = document.getElementById('registroFactura');
         const datosFormulario = new FormData(formulario);
         const data = Object.fromEntries(datosFormulario.entries());
@@ -43,9 +70,11 @@ function validarFormularioFactura() {
 
                 const info = await respuesta.json();
                 console.log('Factura almacenada: ', info);
+
                 if (respuesta.ok) {
                     formulario.reset();
-                    obtenerFacturas(); // refresca la tabla
+                    // ✅ refrescar tabla sin error
+                    inicializarTablaFacturas();
                 }
             } catch (error) {
                 console.log('Error al guardar la factura: ', error);
@@ -91,7 +120,6 @@ function validarFecha(campo) {
     }
 }
 
-
 // Cargar usuarios en el dropdown
 async function obtenerUsuarios() {
     try {
@@ -107,32 +135,6 @@ async function obtenerUsuarios() {
         });
     } catch (error) {
         console.log('Error al cargar usuarios: ', error);
-    }
-}
-
-// Cargar facturas en la tabla
-async function obtenerFacturas() {
-    try {
-        const respuesta = await fetch('http://localhost:3000/facturas');
-        const facturas = await respuesta.json();
-
-        new DataTable('#tablaFacturas', {
-            data: facturas,
-            columns: [
-                { data: 'numero' },
-                { data: 'proveedor' },
-                { data: 'fecha' },
-                { data: 'monto' },
-                { data: 'impuesto'},
-                { data: 'total'},
-                { data: 'estado' },
-                { data: 'metodoPago' },
-                { data: 'usuario.nombre' },
-                { data: 'usuario.rut' }
-            ]
-        });
-    } catch (error) {
-        console.log('Error: ', error);
     }
 }
 

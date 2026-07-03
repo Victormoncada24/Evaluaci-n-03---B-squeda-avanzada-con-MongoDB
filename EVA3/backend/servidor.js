@@ -151,12 +151,12 @@ aplicacion.get('/usuarios', async (request, response) => {
     }
 });
 
-aplicacion.get('/facturas', async (request, responde) => {
+aplicacion.get('/facturas', async (request, response) => {
     try {
         const facturas = await Factura.find().populate('usuario', 'nombre rut correo');
-        res.status(200).json(facturas);
+        response.status(200).json(facturas);
     } catch (error) {
-        res.status(500).json({ mensaje: 'Error al obtener facturas', error });
+        response.status(500).json({ mensaje: 'Error al obtener facturas', error });
     }
 });
 
@@ -190,8 +190,8 @@ aplicacion.get('/comunas', async (request, response) => {
 aplicacion.get('/usuarios', async (request, response) => {
     try {
         const usuarios = await Usuario.find({ activo: true }).select('nombre rut');
-        res.status(200).json(usuarios);
+        response.status(200).json(usuarios);
     } catch (error) {
-        res.status(500).json({ mensaje: 'Error al obtener usuarios', error });
+        response.status(500).json({ mensaje: 'Error al obtener usuarios', error });
     }
 });
